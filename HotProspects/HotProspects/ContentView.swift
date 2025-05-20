@@ -40,6 +40,17 @@ struct ContentView: View {
         
         List(users, id: \.self, selection: $selection) { user in
             Text(user)
+                .swipeActions {
+                    Button("Delete", systemImage: "minus.circle", role: .destructive) {
+                        print("Deleting")
+                    }
+                }
+                .swipeActions(edge: .leading){
+                    Button("Pin", systemImage: "pin") {
+                        print("Pinning")
+                    }
+                    .tint(.orange)
+                }
         }
         if selection.isEmpty == false {
             Text("You selected \(selection.formatted())")
