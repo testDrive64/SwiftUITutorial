@@ -13,10 +13,30 @@ struct ContentView: View {
     @State private var selection = Set<String>()
     @State private var selectedTab = "One"
     @State private var output = ""
-    
+    @State private var backgroundColor = Color.red
     
     var body: some View {
-        
+        VStack {
+            Text("Hello, SwiftUI!")
+                .padding()
+                .background(backgroundColor)
+            
+            Text("Change Color")
+                .padding()
+                .contextMenu {
+                    Button("Red", systemImage: "checkmark.circle.fill", role: .destructive) {
+                        backgroundColor = .red
+                    }
+                    
+                    Button("Green") {
+                        backgroundColor = .green
+                    }
+                    
+                    Button("Blue") {
+                        backgroundColor = .blue
+                    }
+                }
+        }
         
         List(users, id: \.self, selection: $selection) { user in
             Text(user)
@@ -24,6 +44,12 @@ struct ContentView: View {
         if selection.isEmpty == false {
             Text("You selected \(selection.formatted())")
         }
+        Image(.p1Front)
+            .interpolation(.none)
+            .resizable()
+            .scaledToFit()
+            .background(.black)
+        
         EditButton()
         
         Button("Show Tab 2") {
