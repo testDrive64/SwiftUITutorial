@@ -6,9 +6,19 @@
 //
 
 import SwiftUI
+import UserNotifications
+import SamplePackage
 
 struct ContentView: View {
     let users = ["Tohru", "Yuki", "Kyo", "Momiji"]
+    let possibleNumbers = 1...60
+    
+    var results: String {
+        let selected = possibleNumbers.random(7).sorted()
+        
+        let strings = selected.map(String.init)
+        return strings.formatted()
+    }
     
     @State private var selection = Set<String>()
     @State private var selectedTab = "One"
@@ -16,77 +26,27 @@ struct ContentView: View {
     @State private var backgroundColor = Color.red
     
     var body: some View {
-        VStack {
-            Text("Hello, SwiftUI!")
-                .padding()
-                .background(backgroundColor)
+        
+        TabView {
+            ProspectsView(filter: .none)
+                .tabItem {
+                    Label("Everyone", systemImage: "person.3")
+                }
+            ProspectsView(filter: .contacted)
+                .tabItem {
+                    Label("Contacted", systemImage: "checkmark.circle")
+                }
+            ProspectsView(filter: .uncontacted)
+                .tabItem {
+                    Label("Uncontacted", systemImage: "questionmark.diamond")
+                }
+            MeView()
+                .tabItem {
+                    Label("Me", systemImage: "person.crop.square")
+                }
             
-            Text("Change Color")
-                .padding()
-                .contextMenu {
-                    Button("Red", systemImage: "checkmark.circle.fill", role: .destructive) {
-                        backgroundColor = .red
-                    }
-                    
-                    Button("Green") {
-                        backgroundColor = .green
-                    }
-                    
-                    Button("Blue") {
-                        backgroundColor = .blue
-                    }
-                }
         }
         
-        List(users, id: \.self, selection: $selection) { user in
-            Text(user)
-                .swipeActions {
-                    Button("Delete", systemImage: "minus.circle", role: .destructive) {
-                        print("Deleting")
-                    }
-                }
-                .swipeActions(edge: .leading){
-                    Button("Pin", systemImage: "pin") {
-                        print("Pinning")
-                    }
-                    .tint(.orange)
-                }
-        }
-        if selection.isEmpty == false {
-            Text("You selected \(selection.formatted())")
-        }
-        Image(.p1Front)
-            .interpolation(.none)
-            .resizable()
-            .scaledToFit()
-            .background(.black)
-        
-        EditButton()
-        
-        Button("Show Tab 2") {
-            selectedTab = "Two"
-        }
-        .tabItem{
-            Label("One", systemImage: "star")
-        }
-        
-        Text(output)
-            .task {
-                await fetchReadings()
-            }
-        
-        TabView(selection: $selectedTab) {
-            Text("Tab 1")
-                .tabItem {
-                    Label("One", systemImage: "star")
-                }
-                .tag("One")
-            Text("Tab 2")
-                .tabItem {
-                    Label("Two", systemImage: "circle")
-                }
-                .tag("Two")
-        }
     }
     
     func fetchReadings() async {
@@ -110,4 +70,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .modelContainer(for: Prospect.self)
 }
