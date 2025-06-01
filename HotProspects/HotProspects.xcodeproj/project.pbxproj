@@ -8,11 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9407017F2DEA2E8A00187081 /* SamplePackage in Frameworks */ = {isa = PBXBuildFile; productRef = 9407017E2DEA2E8A00187081 /* SamplePackage */; };
-		940701872DEA601F00187081 /* Prospect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940701862DEA601F00187081 /* Prospect.swift */; };
+		9407018A2DECDA4700187081 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 940701892DECDA4700187081 /* CodeScanner */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		940701862DEA601F00187081 /* Prospect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prospect.swift; sourceTree = "<group>"; };
 		9465F4532DD8016D00AAC0D0 /* HotProspects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotProspects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -29,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9407018A2DECDA4700187081 /* CodeScanner in Frameworks */,
 				9407017F2DEA2E8A00187081 /* SamplePackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,7 +39,6 @@
 		9465F44A2DD8016D00AAC0D0 = {
 			isa = PBXGroup;
 			children = (
-				940701862DEA601F00187081 /* Prospect.swift */,
 				9465F4552DD8016D00AAC0D0 /* HotProspects */,
 				9465F4542DD8016D00AAC0D0 /* Products */,
 			);
@@ -74,6 +73,7 @@
 			name = HotProspects;
 			packageProductDependencies = (
 				9407017E2DEA2E8A00187081 /* SamplePackage */,
+				940701892DECDA4700187081 /* CodeScanner */,
 			);
 			productName = HotProspects;
 			productReference = 9465F4532DD8016D00AAC0D0 /* HotProspects.app */;
@@ -105,6 +105,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				9407017D2DEA2E8A00187081 /* XCRemoteSwiftPackageReference "SamplePackage" */,
+				940701882DECDA4700187081 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9465F4542DD8016D00AAC0D0 /* Products */;
@@ -131,7 +132,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				940701872DEA601F00187081 /* Prospect.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +269,8 @@
 				DEVELOPMENT_TEAM = 6HC29D54DF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -297,6 +299,8 @@
 				DEVELOPMENT_TEAM = 6HC29D54DF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -347,6 +351,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		940701882DECDA4700187081 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -354,6 +366,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9407017D2DEA2E8A00187081 /* XCRemoteSwiftPackageReference "SamplePackage" */;
 			productName = SamplePackage;
+		};
+		940701892DECDA4700187081 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 940701882DECDA4700187081 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
