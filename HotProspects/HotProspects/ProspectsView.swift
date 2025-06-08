@@ -6,6 +6,7 @@
 //
 
 import CodeScanner
+import UserNotifications
 import SwiftUI
 import SwiftData
 
@@ -16,6 +17,7 @@ enum FilterType {
 struct ProspectsView: View {
     @Query(sort: \Prospect.name) var prospects: [Prospect]
     @Environment(\.modelContext) var modelContext
+    @State private var selectedProspects = Set<Prospect>()
     @State private var isShowingScanner = false
     let filter: FilterType
     
@@ -32,23 +34,53 @@ struct ProspectsView: View {
     
     var body: some View {
         NavigationStack {
-            List(prospects) { prospect in
+            List(prospects, selection: $selectedProspects) { prospect in
                 VStack(alignment: .leading) {
                     Text(prospect.name)
                         .font(.headline)
                     Text(prospect.emailAddress)
                         .foregroundStyle(.secondary)
                 }
+                .swipeActions {
+                    Button("Delete", systemImage: "trash", role: .destructive) {
+                        modelContext.delete(prospect)
+                    }
+                    if prospect.isContacted {
+                        Button("Mark Uncontaced", systemImage: "person.crop.circle.badge.xmark") {
+                            prospect.isContacted.toggle()
+                        }
+                        .tint(.blue)
+                        
+                    } else {
+                        Button("Mark Contacted", systemImage: "person.crop.circle.fill.badge.checkmark") {
+                            prospect.isContacted.toggle()
+                        }
+                        .tint(.green)
+                    }
+                }
+                .tag(prospect)
             }
-                .navigationTitle(title)
-                .toolbar {
+            .navigationTitle(title)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button("Scan", systemImage: "qrcode.viewfinder") {
                         isShowingScanner = true
                     }
                 }
-                .sheet(isPresented: $isShowingScanner) {
-                    CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingswift.com", completion: handleScan)
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
                 }
+                
+                if selectedProspects.isEmpty == false {
+                    ToolbarItem(placement: .bottomBar) {
+                        Button("Delete Selected", action: delete)
+                    }
+                }
+            }
+            .sheet(isPresented: $isShowingScanner) {
+                CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingswift.com", completion: handleScan)
+            }
         }
     }
     
@@ -59,7 +91,7 @@ struct ProspectsView: View {
             let showContactedOnly = filter == .contacted
             
             _prospects = Query(filter: #Predicate {
-                $0.isContected == showContactedOnly
+                $0.isContacted == showContactedOnly
             }, sort: [SortDescriptor(\Prospect.name)])
         }
     }
@@ -77,6 +109,20 @@ struct ProspectsView: View {
                 modelContext.insert(person)
             case .failure(let error):
                 print("Scanning failed: \(error.localizedDescription)")
+        }
+    }
+    
+//    func adNotification(for prospect: Prospect) {
+//        let center = UNUserNotificationCenter.current()
+//        
+//        let addRequest = {
+//            
+//        }
+//    }
+    
+    func delete() {
+        for prospect in selectedProspects {
+            modelContext.delete(prospect)
         }
     }
 }
